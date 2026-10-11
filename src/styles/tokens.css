@@ -48,6 +48,15 @@
   --size-button-min-height: 3.25rem;
   --size-strength-min-height: 3.75rem;
   --size-controls-placeholder: 10rem;
+
+  /* Slider */
+  --slider-track-height: 0.5rem;
+  --slider-thumb-size: 1.75rem;
+  --slider-track-color: var(--color-background);
+  --slider-progress-color: var(--color-accent);
+  --slider-thumb-color: var(--color-text-primary);
+  --slider-focus-width: 0.1875rem;
+  --slider-focus-offset: 0.25rem;
 }
 
 /* Responsive design decisions */

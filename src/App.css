@@ -43,24 +43,6 @@
   background: var(--color-surface);
 }
 
-.length-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.length-label {
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
-}
-
-.length-value {
-  color: var(--color-accent);
-  font-size: var(--font-size-xl);
-  line-height: var(--line-height-xl);
-}
-
 .controls {
   display: grid;
   place-items: center;

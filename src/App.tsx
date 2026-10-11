@@ -1,4 +1,5 @@
 import "./App.css";
+import { CharacterLengthSlider } from "./components";
 
 export default function App() {
   return (
@@ -13,12 +14,9 @@ export default function App() {
         </div>
 
         <div className="generator-panel">
-          <div className="length-indicator">
-            <span className="length-label">Character length</span>
-            <span className="length-value">10</span>
-          </div>
+          <CharacterLengthSlider />
 
-          <div className="controls">Configuration controls</div>
+          <div className="controls">Character categories controls</div>
 
           <div className="strength-indicator">
             <span className="strength-label">Strength</span>

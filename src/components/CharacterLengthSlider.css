@@ -1,0 +1,84 @@
+.character-length {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.length-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.length-label {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.length-value {
+  color: var(--color-accent);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+}
+
+.length-slider {
+  width: 100%;
+  height: var(--slider-thumb-size);
+  margin: 0;
+  appearance: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+.length-slider::-webkit-slider-runnable-track {
+  height: var(--slider-track-height);
+  background: linear-gradient(
+    to right,
+    var(--slider-progress-color) var(--slider-progress),
+    var(--slider-track-color) var(--slider-progress)
+  );
+}
+
+.length-slider::-moz-range-track {
+  height: var(--slider-track-height);
+  background: var(--slider-track-color);
+}
+
+.length-slider::-moz-range-progress {
+  height: var(--slider-track-height);
+  background: var(--slider-progress-color);
+}
+
+.length-slider::-webkit-slider-thumb {
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  margin-top: calc((var(--slider-track-height) - var(--slider-thumb-size)) / 2);
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--slider-thumb-color);
+}
+
+.length-slider::-moz-range-thumb {
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  border: 0;
+  border-radius: 50%;
+  background: var(--slider-thumb-color);
+}
+
+.length-slider:hover::-webkit-slider-thumb {
+  border: var(--slider-focus-width) solid var(--color-accent);
+  background: var(--color-background);
+}
+
+.length-slider:hover::-moz-range-thumb {
+  border: var(--slider-focus-width) solid var(--color-accent);
+  background: var(--color-background);
+}
+
+.length-slider:focus-visible {
+  outline: var(--slider-focus-width) solid var(--color-accent);
+  outline-offset: var(--slider-focus-offset);
+}
