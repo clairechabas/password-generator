@@ -1,0 +1,105 @@
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-8) 0;
+}
+
+.password-generator {
+  width: min(100% - 2 * var(--layout-gutter), var(--layout-max-width));
+}
+
+.generator-title {
+  margin: 0 0 var(--layout-section-gap);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  text-align: center;
+}
+
+.password-output {
+  display: flex;
+  align-items: center;
+  min-height: var(--size-output-min-height);
+  padding: var(--space-5) var(--layout-panel-padding);
+  margin-bottom: var(--layout-section-gap);
+  background: var(--color-surface);
+}
+
+.password-value {
+  min-width: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  overflow-wrap: anywhere;
+}
+
+.generator-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--layout-section-gap);
+  padding: var(--layout-panel-padding);
+  background: var(--color-surface);
+}
+
+.length-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.length-label {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.length-value {
+  color: var(--color-accent);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+}
+
+.controls {
+  display: grid;
+  place-items: center;
+  min-height: var(--size-controls-placeholder);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+.strength-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--size-strength-min-height);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-background);
+}
+
+.strength-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  text-transform: uppercase;
+}
+
+.strength-value {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+.generate-button {
+  display: grid;
+  place-items: center;
+  min-height: var(--size-button-min-height);
+  padding: var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-background);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  text-align: center;
+}
