@@ -11,8 +11,12 @@ export function CharacterLengthSlider() {
   return (
     <div className="character-length">
       <div className="length-indicator">
-        <label htmlFor="password-length" className="length-label">Character length</label>
-        <output htmlFor="password-length" className="length-value">{length}</output>
+        <label htmlFor="password-length" className="length-label">
+          Character length
+        </label>
+        <output htmlFor="password-length" className="length-value">
+          {length}
+        </output>
       </div>
 
       <input

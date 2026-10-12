@@ -57,6 +57,16 @@
   --slider-thumb-color: var(--color-text-primary);
   --slider-focus-width: 0.1875rem;
   --slider-focus-offset: 0.25rem;
+
+  /* Checkbox */
+  --checkbox-size: 1.25rem;
+  --checkbox-border-width: 0.125rem;
+  --checkbox-check-width: 0.375rem;
+  --checkbox-check-height: 0.625rem;
+  --checkbox-check-stroke: 0.125rem;
+  --checkbox-focus-width: 0.1875rem;
+  --checkbox-focus-offset: 0.25rem;
+  --checkbox-target-min-height: 2.75rem;
 }
 
 /* Responsive design decisions */
