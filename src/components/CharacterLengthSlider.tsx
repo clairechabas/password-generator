@@ -2,10 +2,13 @@ import React from "react";
 import { MAX_LENGTH, MIN_LENGTH } from "../domain/password";
 import "./CharacterLengthSlider.css";
 
-const DEFAULT_LENGTH = 10;
+export function CharacterLengthSlider(props: {
+  length: number;
+  minLength: number;
+  onLengthChange: (length: number) => void;
+}) {
+  const { length, minLength, onLengthChange } = props;
 
-export function CharacterLengthSlider() {
-  const [length, setLength] = React.useState(DEFAULT_LENGTH);
   const progress = ((length - MIN_LENGTH) / (MAX_LENGTH - MIN_LENGTH)) * 100;
 
   return (
@@ -22,10 +25,10 @@ export function CharacterLengthSlider() {
       <input
         type="range"
         id="password-length"
-        min={MIN_LENGTH}
+        min={minLength}
         max={MAX_LENGTH}
         value={length}
-        onChange={(event) => setLength(event.currentTarget.valueAsNumber)}
+        onChange={(event) => onLengthChange(event.currentTarget.valueAsNumber)}
         className="length-slider"
         style={
           {

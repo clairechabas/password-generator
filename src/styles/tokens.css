@@ -67,6 +67,11 @@
   --checkbox-focus-width: 0.1875rem;
   --checkbox-focus-offset: 0.25rem;
   --checkbox-target-min-height: 2.75rem;
+
+  /* Strength indicator */
+  --strength-bar-width: 0.625rem;
+  --strength-bar-height: 1.5rem;
+  --strength-bar-border-width: 0.125rem;
 }
 
 /* Responsive design decisions */

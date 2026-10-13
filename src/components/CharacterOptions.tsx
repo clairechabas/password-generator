@@ -1,32 +1,13 @@
-import React from "react";
-import type { PasswordOptions } from "../domain/password";
+import type { CharacterCategory, CharacterSelection } from "../domain/password";
 import "./CharacterOptions.css";
 
-type CharacterCategory = Exclude<keyof PasswordOptions, "length">;
+interface CharacterOptionsProps {
+  selectedOptions: CharacterSelection;
+  onOptionsSelection: (category: CharacterCategory, checked: boolean) => void;
+}
 
-const OPTIONS: ReadonlyArray<{ key: CharacterCategory; label: string }> = [
-  { key: "uppercase", label: "Include Uppercase letters" },
-  { key: "lowercase", label: "Include Lowercase letters" },
-  { key: "numbers", label: "Include Numbers" },
-  { key: "symbols", label: "Include Symbols" },
-];
-
-const DEFAULT_OPTIONS: Record<CharacterCategory, boolean> = {
-  uppercase: true,
-  lowercase: true,
-  numbers: true,
-  symbols: false,
-};
-
-export function CharacterOptions() {
-  const [selected, setSelected] = React.useState(DEFAULT_OPTIONS);
-
-  function handleChange(category: CharacterCategory, checked: boolean) {
-    setSelected((current) => ({
-      ...current,
-      [category]: checked,
-    }));
-  }
+export function CharacterOptions(props: CharacterOptionsProps) {
+  const { selectedOptions, onOptionsSelection } = props;
 
   return (
     <fieldset className="character-options">
@@ -37,8 +18,10 @@ export function CharacterOptions() {
           <input
             type="checkbox"
             name={option.key}
-            checked={selected[option.key]}
-            onChange={(event) => handleChange(option.key, event.currentTarget.checked)}
+            checked={selectedOptions[option.key]}
+            onChange={(event) =>
+              onOptionsSelection(option.key, event.currentTarget.checked)
+            }
             className="character-option-input"
           />
           <span className="character-option-label">{option.label}</span>
@@ -47,3 +30,10 @@ export function CharacterOptions() {
     </fieldset>
   );
 }
+
+const OPTIONS: ReadonlyArray<{ key: CharacterCategory; label: string }> = [
+  { key: "uppercase", label: "Include Uppercase letters" },
+  { key: "lowercase", label: "Include Lowercase letters" },
+  { key: "numbers", label: "Include Numbers" },
+  { key: "symbols", label: "Include Symbols" },
+];

@@ -1,19 +1,37 @@
 import { describe, expect, it } from "vitest";
-import { generatePassword, MAX_LENGTH, MIN_LENGTH, type PasswordOptions } from "./password";
+import {
+  countSelectedCategories,
+  ensureMinimumPasswordLength,
+  generatePassword,
+  MAX_LENGTH,
+  MIN_LENGTH,
+  type CharacterSelection,
+  type PasswordOptions,
+} from "./password";
 
-const defaultOptions: PasswordOptions = {
-  length: 16,
+const defaultLength = 10;
+const allTrueCategories: CharacterSelection = {
   uppercase: true,
   lowercase: true,
   numbers: true,
   symbols: true,
+};
+const allFalseCategories: CharacterSelection = {
+  uppercase: false,
+  lowercase: false,
+  numbers: false,
+  symbols: false,
+};
+const defaultOptions: PasswordOptions = {
+  length: defaultLength,
+  ...allTrueCategories,
 };
 
 describe("generatePassword", () => {
   it("generates the requested length", () => {
     const password = generatePassword(defaultOptions);
 
-    expect(password).toHaveLength(16);
+    expect(password).toHaveLength(defaultLength);
   });
 
   it("includes every selected character category", () => {
@@ -39,11 +57,8 @@ describe("generatePassword", () => {
   it("rejects an empty character selection", () => {
     expect(() =>
       generatePassword({
-        length: 10,
-        uppercase: false,
-        lowercase: false,
-        numbers: false,
-        symbols: false,
+        length: defaultLength,
+        ...allFalseCategories,
       }),
     ).toThrow("Select at least one character category");
   });
@@ -63,7 +78,9 @@ describe("generatePassword", () => {
         ...defaultOptions,
         length: 0,
       }),
-    ).toThrow(`Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`);
+    ).toThrow(
+      `Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`,
+    );
   });
 
   it("rejects a password too long", () => {
@@ -72,7 +89,9 @@ describe("generatePassword", () => {
         ...defaultOptions,
         length: 129,
       }),
-    ).toThrow(`Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`);
+    ).toThrow(
+      `Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`,
+    );
   });
 
   it("rejects a non-integer password length", () => {
@@ -81,7 +100,9 @@ describe("generatePassword", () => {
         ...defaultOptions,
         length: 1.5,
       }),
-    ).toThrow(`Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`);
+    ).toThrow(
+      `Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`,
+    );
   });
 
   it("rejects a non-numeric password length", () => {
@@ -90,16 +111,16 @@ describe("generatePassword", () => {
         ...defaultOptions,
         length: NaN,
       }),
-    ).toThrow(`Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`);
+    ).toThrow(
+      `Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`,
+    );
   });
 
   it("generates one lowercase character", () => {
     const password = generatePassword({
       length: 1,
+      ...allFalseCategories,
       lowercase: true,
-      uppercase: false,
-      numbers: false,
-      symbols: false,
     });
 
     expect(password).toHaveLength(1);
@@ -122,10 +143,8 @@ describe("generatePassword", () => {
   it("generates a password with only digits", () => {
     const password = generatePassword({
       length: 4,
+      ...allFalseCategories,
       numbers: true,
-      lowercase: false,
-      uppercase: false,
-      symbols: false,
     });
 
     expect(password).toMatch(/[0-9]/);
@@ -139,5 +158,44 @@ describe("generatePassword", () => {
     });
 
     expect(password).toHaveLength(128);
+  });
+});
+
+describe("countSelectedCategories", () => {
+  it("returns 0 when no categories are selected", () => {
+    const count = countSelectedCategories({ ...allFalseCategories });
+    expect(count).toBe(0);
+  });
+
+  it("returns 1 when one category is selected", () => {
+    const count = countSelectedCategories({
+      ...allFalseCategories,
+      lowercase: true,
+    });
+    expect(count).toBe(1);
+  });
+
+  it("returns 4 when all categories are selected", () => {
+    const count = countSelectedCategories({ ...defaultOptions });
+    expect(count).toBe(4);
+  });
+});
+
+describe("ensureMinimumPasswordLength", () => {
+  it("returns the length if it is higher than the count of selected categories", () => {
+    const length = 16;
+    expect(ensureMinimumPasswordLength(length, allTrueCategories)).toBe(length);
+  });
+
+  it("returns the count of selected categories when it's higher than the length", () => {
+    const length = 2;
+    expect(ensureMinimumPasswordLength(length, allTrueCategories)).toBe(4);
+  });
+
+  it("returns the length when no categories are selected", () => {
+    const length = 2;
+    expect(ensureMinimumPasswordLength(length, allFalseCategories)).toBe(
+      length,
+    );
   });
 });

@@ -1,22 +1,29 @@
-export interface PasswordOptions {
-  length: number;
-  uppercase: boolean;
-  lowercase: boolean;
-  numbers: boolean;
-  symbols: boolean;
-}
-
-export const MIN_LENGTH = 1;
-export const MAX_LENGTH = 128;
-
-const CHARACTER_SETS = {
+export const CHARACTER_SETS = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   lowercase: "abcdefghijklmnopqrstuvwxyz",
   numbers: "0123456789",
   symbols: "!@#$%^&*()-_=+[]{};:,.?/",
 };
 
-type CharacterCategory = keyof typeof CHARACTER_SETS;
+export type CharacterCategory = keyof typeof CHARACTER_SETS;
+
+export type CharacterSelection = Record<CharacterCategory, boolean>;
+
+export interface PasswordOptions extends CharacterSelection {
+  length: number;
+}
+
+export const DEFAULT_PASSWORD_OPTIONS: CharacterSelection = {
+  uppercase: true,
+  lowercase: true,
+  numbers: true,
+  symbols: false,
+};
+
+export const DEFAULT_PASSWORD_LENGTH = 10;
+
+export const MIN_LENGTH = 1;
+export const MAX_LENGTH = 128;
 
 /**
  * Generates a random index between 0 (inclusive) and the specified maximum (exclusive)
@@ -58,29 +65,27 @@ function shuffle(characters: string[]): void {
 }
 
 /**
- * Generates a random password string based on the specified options.
+ * Generates a password using cryptographically secure randomness.
+ *
+ * It guarantees the requested length and at least one character from
+ * each selected category, then securely shuffles the characters.
+ *
+ * It does not
+ * - guarantee that every valid password is equally likely,
+ * - check whether a password has been leaked,
+ * - enforce a website's password rules.
  *
  * @param options The options specifying the password requirements.
  * @returns A randomly generated password string that meets the specified criteria.
  */
 export function generatePassword(options: PasswordOptions): string {
-  const { length } = options;
+  validatePasswordOptions(options);
 
-  if (!Number.isInteger(length) || length < MIN_LENGTH || length > MAX_LENGTH) {
-    throw new RangeError(`Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`);
-  }
-
-  const selectedCharacterSets = (Object.keys(CHARACTER_SETS) as CharacterCategory[])
+  const selectedCharacterSets = (
+    Object.keys(CHARACTER_SETS) as CharacterCategory[]
+  )
     .filter((category) => options[category] === true)
     .map((category) => CHARACTER_SETS[category]);
-
-  if (selectedCharacterSets.length === 0) {
-    throw new Error("Select at least one character category");
-  }
-
-  if (length < selectedCharacterSets.length) {
-    throw new RangeError("Password length must accommodate every selected category");
-  }
 
   const characterPool = selectedCharacterSets.join("");
 
@@ -88,7 +93,7 @@ export function generatePassword(options: PasswordOptions): string {
   const password = selectedCharacterSets.map(getRandomCharacter);
 
   // Fill the remaining positions from the combined pool.
-  while (password.length < length) {
+  while (password.length < options.length) {
     password.push(getRandomCharacter(characterPool));
   }
 
@@ -96,4 +101,39 @@ export function generatePassword(options: PasswordOptions): string {
   shuffle(password);
 
   return password.join("");
+}
+
+export function validatePasswordOptions(options: PasswordOptions): void {
+  const { length } = options;
+
+  if (!Number.isInteger(length) || length < MIN_LENGTH || length > MAX_LENGTH) {
+    throw new RangeError(
+      `Password length must be between ${MIN_LENGTH} and ${MAX_LENGTH}`,
+    );
+  }
+
+  const selectedCharactersCount = countSelectedCategories(options);
+
+  if (selectedCharactersCount === 0) {
+    throw new Error("Select at least one character category");
+  }
+
+  if (length < selectedCharactersCount) {
+    throw new RangeError(
+      "Password length must accommodate every selected category",
+    );
+  }
+}
+
+export function countSelectedCategories(options: CharacterSelection): number {
+  return (Object.keys(CHARACTER_SETS) as CharacterCategory[]).filter(
+    (category) => options[category],
+  ).length;
+}
+
+export function ensureMinimumPasswordLength(
+  length: number,
+  options: CharacterSelection,
+): number {
+  return Math.max(length, countSelectedCategories(options));
 }
