@@ -11,15 +11,20 @@ const OPTIONS: ReadonlyArray<{ key: CharacterCategory; label: string }> = [
   { key: "symbols", label: "Include Symbols" },
 ];
 
-const DEFAULT_OPTIONS: Record<CharacterCategory, boolean> = {
+export const DEFAULT_OPTIONS: Record<CharacterCategory, boolean> = {
   uppercase: true,
   lowercase: true,
   numbers: true,
   symbols: false,
 };
 
-export function CharacterOptions() {
-  const [selected, setSelected] = React.useState(DEFAULT_OPTIONS);
+interface CharacterOptionsProps {
+  selected: Record<CharacterCategory, boolean>;
+  setSelected: React.Dispatch<React.SetStateAction<Record<CharacterCategory, boolean>>>;
+}
+
+export function CharacterOptions(props: CharacterOptionsProps) {
+  const { selected, setSelected } = props;
 
   function handleChange(category: CharacterCategory, checked: boolean) {
     setSelected((current) => ({

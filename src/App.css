@@ -52,28 +52,6 @@
   text-align: center;
 }
 
-.strength-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  min-height: var(--size-strength-min-height);
-  padding: var(--space-4) var(--space-5);
-  background: var(--color-background);
-}
-
-.strength-label {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
-  line-height: var(--line-height-xs);
-  text-transform: uppercase;
-}
-
-.strength-value {
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
-}
-
 .generate-button {
   display: grid;
   place-items: center;

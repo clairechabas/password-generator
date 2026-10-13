@@ -9,7 +9,7 @@ export interface PasswordOptions {
 export const MIN_LENGTH = 1;
 export const MAX_LENGTH = 128;
 
-const CHARACTER_SETS = {
+export const CHARACTER_SETS = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   lowercase: "abcdefghijklmnopqrstuvwxyz",
   numbers: "0123456789",

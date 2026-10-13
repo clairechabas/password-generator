@@ -1,7 +1,17 @@
+import React from "react";
 import "./App.css";
-import { CharacterLengthSlider, CharacterOptions } from "./components";
+import {
+  CharacterLengthSlider,
+  CharacterOptions,
+  DEFAULT_OPTIONS,
+  StrengthIndicator,
+} from "./components";
+import { estimatePasswordStrength } from "./domain/strength";
 
 export default function App() {
+  const [selected, setSelected] = React.useState(DEFAULT_OPTIONS);
+  const strength = estimatePasswordStrength(selected);
+
   return (
     <main className="page">
       <section className="password-generator" aria-labelledby="generator-title">
@@ -16,12 +26,9 @@ export default function App() {
         <div className="generator-panel">
           <CharacterLengthSlider />
 
-          <CharacterOptions />
+          <CharacterOptions selected={selected} setSelected={setSelected} />
 
-          <div className="strength-indicator">
-            <span className="strength-label">Strength</span>
-            <span className="strength-value">MEDIUM</span>
-          </div>
+          <StrengthIndicator strength={strength} />
 
           <div className="generate-button">{`Generate ->`}</div>
         </div>
