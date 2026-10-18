@@ -4,22 +4,25 @@ import { estimatePasswordStrength } from "./domain/strength";
 import {
   countSelectedCategories,
   DEFAULT_PASSWORD_LENGTH,
-  DEFAULT_PASSWORD_OPTIONS,
+  DEFAULT_PASSWORD_CHARACTER_CATEGORIES,
   ensureMinimumPasswordLength,
+  generatePassword,
   type CharacterCategory,
   type PasswordOptions,
+  PASSWORD_DEFAULT_OPTIONS,
 } from "./domain/password";
 import {
   CharacterLengthSlider,
   CharacterOptions,
   StrengthIndicator,
 } from "./components";
+import { Button } from "./components/Button";
 
 export default function App() {
-  const [options, setOptions] = React.useState<PasswordOptions>({
-    ...DEFAULT_PASSWORD_OPTIONS,
-    length: DEFAULT_PASSWORD_LENGTH,
-  });
+  // Password options
+  const [options, setOptions] = React.useState<PasswordOptions>(
+    PASSWORD_DEFAULT_OPTIONS,
+  );
 
   function handleCategoryChange(category: CharacterCategory, checked: boolean) {
     setOptions((currentOptions) => {
@@ -51,6 +54,14 @@ export default function App() {
   // Password strength
   const strength = estimatePasswordStrength(options);
 
+  // Generate password
+  const [password, setPassword] = React.useState(() =>
+    generatePassword(PASSWORD_DEFAULT_OPTIONS),
+  );
+  function handleGeneratePassword() {
+    setPassword(generatePassword(options));
+  }
+
   return (
     <main className="page">
       <section className="password-generator" aria-labelledby="generator-title">
@@ -59,7 +70,7 @@ export default function App() {
         </h1>
 
         <div className="password-output">
-          <span className="password-value">P4$5W0rD!</span>
+          <span className="password-value">{password}</span>
         </div>
 
         <div className="generator-panel">
@@ -76,7 +87,10 @@ export default function App() {
 
           <StrengthIndicator strength={strength} />
 
-          <div className="generate-button">{`Generate ->`}</div>
+          <Button
+            type="button"
+            onClick={handleGeneratePassword}
+          >{`Generate ->`}</Button>
         </div>
       </section>
     </main>

@@ -13,7 +13,7 @@ export interface PasswordOptions extends CharacterSelection {
   length: number;
 }
 
-export const DEFAULT_PASSWORD_OPTIONS: CharacterSelection = {
+export const DEFAULT_PASSWORD_CHARACTER_CATEGORIES: CharacterSelection = {
   uppercase: true,
   lowercase: true,
   numbers: true,
@@ -21,6 +21,11 @@ export const DEFAULT_PASSWORD_OPTIONS: CharacterSelection = {
 };
 
 export const DEFAULT_PASSWORD_LENGTH = 10;
+
+export const PASSWORD_DEFAULT_OPTIONS: PasswordOptions = {
+  ...DEFAULT_PASSWORD_CHARACTER_CATEGORIES,
+  length: DEFAULT_PASSWORD_LENGTH,
+};
 
 export const MIN_LENGTH = 1;
 export const MAX_LENGTH = 128;

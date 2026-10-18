@@ -29,7 +29,7 @@
 
 .password-value {
   min-width: 0;
-  color: var(--color-text-muted);
+  color: var(--color-text-primary);
   font-size: var(--font-size-lg);
   line-height: var(--line-height-lg);
   overflow-wrap: anywhere;
@@ -49,17 +49,5 @@
   min-height: var(--size-controls-placeholder);
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
-  text-align: center;
-}
-
-.generate-button {
-  display: grid;
-  place-items: center;
-  min-height: var(--size-button-min-height);
-  padding: var(--space-4);
-  background: var(--color-accent);
-  color: var(--color-background);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
   text-align: center;
 }
